@@ -1,209 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Fall Movie Night</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  color: white;
-  overflow-x: hidden;
-  transition: background 0.5s;
-}
-
-.fall-theme {
-  background: url("https://images.unsplash.com/photo-1507371341162-763b5e419408") no-repeat center/cover;
-}
-
-.spooky-theme {
-  background: url("https://images.unsplash.com/photo-1509248961158-e54f6934749c") no-repeat center/cover;
-}
-
-.overlay {
-  background: rgba(0,0,0,0.65);
-  min-height: 100vh;
-  padding: 30px;
-  text-align: center;
-}
-
-h1 {
-  font-size: 2.8em;
-  color: #f8c471;
-}
-
-.card {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 25px;
-  max-width: 500px;
-  margin: 20px auto;
-}
-
-.highlight { color: #f5b041; font-weight: bold; }
-
-/* Buttons */
-button, .btn {
-  padding: 12px 18px;
-  margin: 6px;
-  border: none;
-  border-radius: 25px;
-  background: #f39c12;
-  color: white;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-button:hover, .btn:hover { background: #d68910; }
-
-/* RSVP fields */
-input, textarea {
-  width: 90%;
-  padding: 10px;
-  margin: 6px;
-  border-radius: 10px;
-  border: none;
-}
-
-/* Countdown */
-#countdown {
-  font-size: 1.3em;
-  margin: 10px 0;
-}
-
-/* Leaves */
-.leaf {
-  position: fixed;
-  top: -10px;
-  width: 18px;
-  height: 18px;
-  background: orange;
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(45deg);
-  animation: fall linear infinite;
-}
-
-@keyframes fall {
-  to {
-    transform: translateY(110vh) rotate(360deg);
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Fall Movie Night</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="fall-theme">
 
 <div class="overlay">
 
-<h1 id="title">🍂 Movie Night Under the Stars 🍂</h1>
+  <h1>🍂 Movie Night Under the Stars 🍂</h1>
 
-<div id="countdown"></div>
+  <div id="countdown"></div>
 
-<button onclick="toggleMusic()">🎶 Play / Pause Music</button>
+  <button onclick="toggleMusic()">🎶 Play / Pause Music</button>
 
-<div class="card">
-  <p>Join us for a cozy fall evening ✨</p>
+  <div class="card">
+    <p>Join us for a cozy fall evening ✨</p>
 
-  <p>🎬 <span class="highlight">Movie:</span> Hocus Pocus</p>
-  <p>📅 <span class="highlight">Date:</span> October 14</p>
-  <p>🕰 <span class="highlight">Time:</span> 6:30 PM</p>
-  <p>📍 212 Private Road 350</p>
+    <p>🎬 <span class="highlight">Movie:</span> Hocus Pocus</p>
+    <p>📅 <span class="highlight">Date:</span> October 14</p>
+    <p>🕰 <span class="highlight">Time:</span> 6:30 PM</p>
+    <p>📍 212 Private Road 350</p>
 
-  <p>🍿 Popcorn & warm drinks provided</p>
+    <p>🍿 Popcorn & warm drinks provided</p>
 
+    <h3>RSVP</h3>
 
-<h3>RSVP</h3>
+    <input type="text" id="guestName" placeholder="Enter your name" />
 
-<!-- TEXT RSVP BUTTON -->
-<a class="btn" href="sms:+19013563530">
-  📱 Text RSVP
-</a>
+    <a class="btn" href="sms:+19013563530">📱 Text RSVP</a>
 
-<br><br>
+    <br><br>
 
-<!-- QUICK RSVP BUTTON -->
-<button onclick="rsvp()">✅ I'm Attending</button>
+    <button onclick="rsvp()">✅ I'm Attending</button>
 
-<p id="confirmation" style="margin-top:10px;"></p>
+    <p id="confirmation"></p>
+    <p id="guestCount"></p>
 
-<p id="guestCount" style="font-weight:bold;"></p>
-
-
-// 📊 Guest Count (stored in browser)
-let guests = localStorage.getItem("guestCount");
-
-if (!guests) {
-  guests = 0;
-} else {
-  guests = parseInt(guests);
-}
-
-// Display initial count
-document.getElementById("guestCount").innerText =
-  "👥 Guests Attending: " + guests;
-
-// RSVP function
-function rsvp() {
-  guests++;
-
-  localStorage.setItem("guestCount", guests);
-
-  document.getElementById("guestCount").innerText =
-    "👥 Guests Attending: " + guests;
-
-  document.getElementById("confirmation").innerText =
-    "🎉 You're on the list! We can't wait to see you!";
-}
+    <ul id="guestList"></ul>
+  </div>
 
 </div>
 
-<!-- MUSIC -->
+<!-- 🎶 MUSIC -->
 <audio id="music" loop>
   <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_9464bfa2b3.mp3" type="audio/mpeg">
 </audio>
 
-<script>
-
-// 🎶 Music toggle
-function toggleMusic() {
-  const music = document.getElementById("music");
-  if (music.paused) {
-    music.play();
-  } else {
-    music.pause();
-  }
-}
-
-// ⏳ Countdown
-const eventDate = new Date("Oct 14, 2026 18:30:00").getTime();
-
-setInterval(() => {
-  let now = new Date().getTime();
-  let diff = eventDate - now;
-
-  let d = Math.floor(diff / (1000*60*60*24));
-  let h = Math.floor((diff % (1000*60*60*24))/(1000*60*60));
-  let m = Math.floor((diff % (1000*60*60))/(1000*60));
-
-  document.getElementById("countdown").innerHTML =
-    "⏳ " + d + "d " + h + "h " + m + "m until movie night";
-}, 1000);
-
-// 🍁 Leaves
-for (let i = 0; i < 25; i++) {
-  let leaf = document.createElement("div");
-  leaf.className = "leaf";
-
-  leaf.style.left = Math.random() * 100 + "vw";
-  leaf.style.animationDuration = (5 + Math.random() * 5) + "s";
-  leaf.style.opacity = Math.random();
-
-  document.body.appendChild(leaf);
-}
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
-``

@@ -8,67 +8,78 @@
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
-  background: url("https://images.unsplash.com/photo-1507371341162-763b5e419408") no-repeat center center/cover;
   color: white;
   overflow-x: hidden;
+  transition: background 0.5s;
+}
+
+.fall-theme {
+  background: url("https://images.unsplash.com/photo-1507371341162-763b5e419408") no-repeat center/cover;
+}
+
+.spooky-theme {
+  background: url("https://images.unsplash.com/photo-1509248961158-e54f6934749c") no-repeat center/cover;
 }
 
 .overlay {
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.65);
   min-height: 100vh;
   padding: 30px;
   text-align: center;
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2.8em;
   color: #f8c471;
 }
 
 .card {
   background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 25px;
   max-width: 500px;
   margin: 20px auto;
 }
 
-.highlight {
-  color: #f5b041;
-  font-weight: bold;
-}
+.highlight { color: #f5b041; font-weight: bold; }
 
-input, textarea {
-  width: 90%;
-  padding: 10px;
-  margin: 8px;
-  border-radius: 10px;
-  border: none;
-}
-
-button {
-  padding: 12px 20px;
+/* Buttons */
+button, .btn {
+  padding: 12px 18px;
+  margin: 6px;
   border: none;
   border-radius: 25px;
   background: #f39c12;
   color: white;
-  font-size: 1em;
   cursor: pointer;
+  text-decoration: none;
 }
 
-button:hover {
-  background: #d68910;
+button:hover, .btn:hover { background: #d68910; }
+
+/* RSVP fields */
+input, textarea {
+  width: 90%;
+  padding: 10px;
+  margin: 6px;
+  border-radius: 10px;
+  border: none;
 }
 
-/* 🍁 Falling Leaves */
+/* Countdown */
+#countdown {
+  font-size: 1.3em;
+  margin: 10px 0;
+}
+
+/* Leaves */
 .leaf {
   position: fixed;
   top: -10px;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   background: orange;
-  opacity: 0.8;
   border-radius: 50% 50% 50% 0;
   transform: rotate(45deg);
   animation: fall linear infinite;
@@ -82,33 +93,99 @@ button:hover {
 </style>
 </head>
 
-<body>
+<body class="fall-theme">
 
 <div class="overlay">
-  <h1>🍂 Movie Night Under the Stars 🍂</h1>
 
-  <div class="card">
-    <p>Join us for a cozy fall evening of film, friends, and fun ✨</p>
+<h1 id="title">🍂 Movie Night Under the Stars 🍂</h1>
 
-    <p>🎬 <span class="highlight">Movie:</span> Hocus Pocus</p>
-    <p>📅 <span class="highlight">Date:</span> October 14</p>
-    <p>🕰 <span class="highlight">Time:</span> 6:30 PM (Movie at sunset)</p>
-    <p>📍 <span class="highlight">Location:</span> Maple Street Park</p>
+<div id="countdown"></div>
 
-    <p>🍿 Popcorn & warm drinks provided!</p>
+<button onclick="toggleTheme()">🎃 Toggle Theme</button>
+<button onclick="toggleMusic()">🎶 Play / Pause Music</button>
 
-    <h3>RSVP</h3>
+<div class="card">
+  <p>Join us for a cozy fall evening ✨</p>
 
-<a href="https://forms.gle/EUyqYXxE8q3KN6UR7">
-  <button>RSVP Here</button>
+  <p>🎬 <span class="highlight">Movie:</span> Hocus Pocus</p>
+  <p>📅 <span class="highlight">Date:</span> October 14</p>
+  <p>🕰 <span class="highlight">Time:</span> 6:30 PM</p>
+  <p>📍 Maple Street Park</p>
+
+  <p>🍿 Popcorn & warm drinks provided</p>
+
+
+<h3>RSVP</h3>
+
+<!-- GOOGLE FORM BUTTON -->
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSfFrSJTcOhgOwrXKcC0EDyjob2t4Cya9MPkMQ7eB9Y1hp8vXw/viewform?usp=header" target="_blank">
+  <button>✅ RSVP Here</button>
+</a>
+
+<p style="font-size:0.85em;">Opens a quick form to confirm attendance</p>
+
+<!-- TEXT RSVP -->
+<br>
+<a class="btn" href="sms:+19013563530">
+  📱 Text RSVP
 </a>
 
 
 </div>
 
+<p style="font-size:0.8em;">Replace RSVP form + phone number with yours</p>
+
+</div>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_9464bfa2b3.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-// 🍁 Generate Falling Leaves
-for (let i = 0; i < 20; i++) {
+// 🎃 Theme toggle
+function toggleTheme() {
+  const body = document.body;
+  const title = document.getElementById("title");
+
+  if (body.classList.contains("fall-theme")) {
+    body.classList.remove("fall-theme");
+    body.classList.add("spooky-theme");
+    title.innerHTML = "🎃 Spooky Movie Night 🎃";
+  } else {
+    body.classList.remove("spooky-theme");
+    body.classList.add("fall-theme");
+    title.innerHTML = "🍂 Movie Night Under the Stars 🍂";
+  }
+}
+
+// 🎶 Music toggle
+function toggleMusic() {
+  const music = document.getElementById("music");
+  if (music.paused) {
+    music.play();
+  } else {
+    music.pause();
+  }
+}
+
+// ⏳ Countdown
+const eventDate = new Date("Oct 14, 2026 18:30:00").getTime();
+
+setInterval(() => {
+  let now = new Date().getTime();
+  let diff = eventDate - now;
+
+  let d = Math.floor(diff / (1000*60*60*24));
+  let h = Math.floor((diff % (1000*60*60*24))/(1000*60*60));
+  let m = Math.floor((diff % (1000*60*60))/(1000*60));
+
+  document.getElementById("countdown").innerHTML =
+    "⏳ " + d + "d " + h + "h " + m + "m until movie night";
+}, 1000);
+
+// 🍁 Leaves
+for (let i = 0; i < 25; i++) {
   let leaf = document.createElement("div");
   leaf.className = "leaf";
 
@@ -122,3 +199,4 @@ for (let i = 0; i < 20; i++) {
 
 </body>
 </html>
+``

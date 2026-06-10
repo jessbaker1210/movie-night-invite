@@ -101,7 +101,6 @@ input, textarea {
 
 <div id="countdown"></div>
 
-<button onclick="toggleTheme()">🎃 Toggle Theme</button>
 <button onclick="toggleMusic()">🎶 Play / Pause Music</button>
 
 <div class="card">
@@ -166,21 +165,6 @@ function rsvp() {
 </audio>
 
 <script>
-// 🎃 Theme toggle
-function toggleTheme() {
-  const body = document.body;
-  const title = document.getElementById("title");
-
-  if (body.classList.contains("fall-theme")) {
-    body.classList.remove("fall-theme");
-    body.classList.add("spooky-theme");
-    title.innerHTML = "🎃 Spooky Movie Night 🎃";
-  } else {
-    body.classList.remove("spooky-theme");
-    body.classList.add("fall-theme");
-    title.innerHTML = "🍂 Movie Night Under the Stars 🍂";
-  }
-}
 
 // 🎶 Music toggle
 function toggleMusic() {

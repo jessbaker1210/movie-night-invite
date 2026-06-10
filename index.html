@@ -117,23 +117,46 @@ input, textarea {
 
 <h3>RSVP</h3>
 
-<!-- GOOGLE FORM BUTTON -->
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSfFrSJTcOhgOwrXKcC0EDyjob2t4Cya9MPkMQ7eB9Y1hp8vXw/viewform?usp=header" target="_blank">
-  <button>✅ RSVP Here</button>
-</a>
-
-<p style="font-size:0.85em;">Opens a quick form to confirm attendance</p>
-
-<!-- TEXT RSVP -->
-<br>
+<!-- TEXT RSVP BUTTON -->
 <a class="btn" href="sms:+19013563530">
   📱 Text RSVP
 </a>
 
+<br><br>
 
-</div>
+<!-- QUICK RSVP BUTTON -->
+<button onclick="rsvp()">✅ I'm Attending</button>
 
-<p style="font-size:0.8em;">Replace RSVP form + phone number with yours</p>
+<p id="confirmation" style="margin-top:10px;"></p>
+
+<p id="guestCount" style="font-weight:bold;"></p>
+
+
+// 📊 Guest Count (stored in browser)
+let guests = localStorage.getItem("guestCount");
+
+if (!guests) {
+  guests = 0;
+} else {
+  guests = parseInt(guests);
+}
+
+// Display initial count
+document.getElementById("guestCount").innerText =
+  "👥 Guests Attending: " + guests;
+
+// RSVP function
+function rsvp() {
+  guests++;
+
+  localStorage.setItem("guestCount", guests);
+
+  document.getElementById("guestCount").innerText =
+    "👥 Guests Attending: " + guests;
+
+  document.getElementById("confirmation").innerText =
+    "🎉 You're on the list! We can't wait to see you!";
+}
 
 </div>
 

@@ -1,69 +1,96 @@
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
-  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  overflow-x: hidden;
 }
 
 .fall-theme {
-  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') no-repeat center/cover;
+  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb')
+              no-repeat center/cover;
   min-height: 100vh;
 }
 
+/* Overlay */
 .overlay {
   background: rgba(0,0,0,0.6);
   min-height: 100vh;
   padding: 20px;
   text-align: center;
+  animation: fadeIn 1.5s ease-in;
 }
 
 /* Card */
 .card {
-  background: rgba(255, 140, 0, 0.85);
+  background: rgba(255,140,0,0.85);
   padding: 20px;
-  border-radius: 15px;
+  border-radius: 20px;
   max-width: 400px;
+  width: 90%;
   margin: 20px auto;
+  box-shadow: 0 0 20px rgba(255,165,0,0.6);
 }
 
 /* Inputs & buttons */
 input {
-  padding: 10px;
-  width: 80%;
+  padding: 12px;
+  width: 100%;
   margin-top: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
 }
 
 button, .btn {
-  padding: 12px 15px;
+  display: block;
+  width: 100%;
+  padding: 12px;
   margin-top: 10px;
+  border-radius: 12px;
   border: none;
-  border-radius: 10px;
   background: #5c2c06;
   color: white;
-  cursor: pointer;
-  display: inline-block;
+  font-weight: bold;
   text-decoration: none;
+}
+
+/* Hover glow */
+button:hover, .btn:hover {
+  background: #7a3e0a;
+  transform: scale(1.03);
 }
 
 .highlight {
   font-weight: bold;
 }
 
-/* ✅ MOBILE RESPONSIVE */
-@media (max-width: 600px) {
-  h1 {
-    font-size: 1.5rem;
-  }
-.card {
-  max-width: 400px;
-  width: 90%;
-  margin: 20px auto;
+/* Guest list */
+ul {
+  list-style: none;
+  padding: 0;
 }
 
-input, button, .btn {
+li {
+  padding: 5px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* 🍁 Falling leaves animation */
+.leaves::before, .leaves::after {
+  content: "🍁 🍂 🍁 🍂 🍁";
+  position: fixed;
   width: 100%;
-  box-sizing: border-box;
+  top: -50px;
+  font-size: 2rem;
+  animation: fall 10s linear infinite;
 }
 
+@keyframes fall {
+  0% { transform: translateY(-50px); }
+  100% { transform: translateY(110vh); }
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }

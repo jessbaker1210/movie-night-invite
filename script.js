@@ -27,19 +27,15 @@ function rsvp() {
 // ✅ FORCE MUSIC TO PLAY NONSTOP
 const music = document.getElementById("music");
 
-// Try autoplay immediately
-window.addEventListener("load", () => {
-  playMusic();
-});
+// ✅ Try to unmute and play on first interaction
+function startMusic() {
+  music.muted = false;
+  music.play().catch(() => {});
+}
 
-// Fallback: play on first user interaction (mobile requirement)
-document.addEventListener("click", playMusic);
-document.addEventListener("touchstart", playMusic);
-
-function playMusic() {
-  if (music.paused) {
-    music.play().catch(() => {
-      console.log("Autoplay blocked until user interacts.");
+// Required for mobile browsers
+document.addEventListener("click", startMusic);
+document.addEventListener("touchstart", startMusic);
     });
   }
 }

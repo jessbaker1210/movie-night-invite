@@ -55,17 +55,15 @@ button, .btn {
   h1 {
     font-size: 1.5rem;
   }
+.card {
+  max-width: 400px;
+  width: 90%;
+  margin: 20px auto;
+}
 
-  .card {
-    width: 90%;
-    padding: 15px;
-  }
+input, button, .btn {
+  width: 100%;
+  box-sizing: border-box;
+}
 
-  input {
-    width: 100%;
-  }
-
-  button, .btn {
-    width: 100%;
-  }
 }

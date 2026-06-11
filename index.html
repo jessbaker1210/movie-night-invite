@@ -2,10 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
-  <!-- ✅ REQUIRED for mobile responsiveness -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Fall Movie Night</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -26,32 +23,32 @@
     <p>🕰 <span class="highlight">Time:</span> 6:30 PM</p>
     <p>📍 212 Private Road 350</p>
 
-    <p>🍿 Popcorn &amp; warm drinks provided</p>
+    <p>🍿 Popcorn & warm drinks provided</p>
 
     <h3>RSVP</h3>
 
-    <!-- ✅ Add name attribute for better form behavior -->
-    <input type="text" id="guestName" name="guestName" placeholder="Enter your name" />
+    <input type="text" id="guestName" placeholder="Enter your name" />
 
-    <!-- ✅ SMS link improved (pre-filled message optional) -->
-    <a class="btn" href="sms:+19013563530?body=I'm%20RSVPing%20for%20movie%20night!">
-      📱 Text RSVP
+    <a class="btn"
+       href="sms:+19013563530?body=I'm%20RSVPing%20for%20movie%20night!">
+       📱 Text RSVP
     </a>
-
-    <br><br>
 
     <button onclick="rsvp()">✅ I'm Attending</button>
 
     <p id="confirmation"></p>
     <p id="guestCount"></p>
 
+    <h4>🎉 Attending:</h4>
     <ul id="guestList"></ul>
   </div>
 
 </div>
 
+<!-- 🍁 Falling Leaves -->
+<div class="leaves"></div>
+
 <!-- 🎶 MUSIC -->
-<!-- ✅ autoplay + muted trick + inline support -->
 <audio id="music" loop autoplay muted playsinline>
   <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_9464bfa2b3.mp3" type="audio/mpeg">
 </audio>

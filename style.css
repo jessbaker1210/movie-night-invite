@@ -1,86 +1,71 @@
 body {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  color: white;
-  overflow-x: hidden;
+  font-family: 'Arial', sans-serif;
+  color: #fff;
 }
 
 .fall-theme {
-  background: url("https://images.unsplash.com/photo-1507371341162-763b5e419408") no-repeat center/cover;
+  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') no-repeat center/cover;
+  min-height: 100vh;
 }
 
 .overlay {
-  background: rgba(0,0,0,0.65);
+  background: rgba(0,0,0,0.6);
   min-height: 100vh;
-  padding: 30px;
+  padding: 20px;
   text-align: center;
 }
 
-h1 {
-  font-size: 2.5em;
-  color: #f8c471;
-}
-
+/* Card */
 .card {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 25px;
-  max-width: 500px;
-  margin: auto;
+  background: rgba(255, 140, 0, 0.85);
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 400px;
+  margin: 20px auto;
 }
 
-.highlight {
-  color: #f5b041;
-  font-weight: bold;
+/* Inputs & buttons */
+input {
+  padding: 10px;
+  width: 80%;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
 }
 
 button, .btn {
-  padding: 12px 18px;
-  margin: 6px;
+  padding: 12px 15px;
+  margin-top: 10px;
   border: none;
-  border-radius: 25px;
-  background: #f39c12;
+  border-radius: 10px;
+  background: #5c2c06;
   color: white;
   cursor: pointer;
+  display: inline-block;
   text-decoration: none;
 }
 
-button:hover, .btn:hover {
-  background: #d68910;
+.highlight {
+  font-weight: bold;
 }
 
-input {
-  width: 80%;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  margin: 8px 0;
-}
+/* ✅ MOBILE RESPONSIVE */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5rem;
+  }
 
-#guestList {
-  list-style: none;
-  padding: 0;
-}
+  .card {
+    width: 90%;
+    padding: 15px;
+  }
 
-#guestList li {
-  margin: 5px 0;
-}
+  input {
+    width: 100%;
+  }
 
-/* Leaves animation */
-.leaf {
-  position: fixed;
-  top: -10px;
-  width: 18px;
-  height: 18px;
-  background: orange;
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(45deg);
-  animation: fall linear infinite;
-}
-
-@keyframes fall {
-  to {
-    transform: translateY(110vh) rotate(360deg);
+  button, .btn {
+    width: 100%;
   }
 }

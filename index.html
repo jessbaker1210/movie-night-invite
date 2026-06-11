@@ -1,59 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fall Movie Night</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fall Movie Night 🍂</title>
 
-<body class="fall-theme">
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  text-align: center;
+  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') no-repeat center/cover;
+}
+
+.overlay {
+  background: rgba(0,0,0,0.65);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.card {
+  background: rgba(255,140,0,0.9);
+  padding: 20px;
+  border-radius: 20px;
+  max-width: 420px;
+  margin: auto;
+  box-shadow: 0 0 25px rgba(255,165,0,0.7);
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 10px;
+  border: none;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 12px;
+  border: none;
+  background: #5c2c06;
+  color: white;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #7a3e0a;
+  transform: scale(1.03);
+}
+
+ul { list-style: none; padding: 0; }
+
+.leaves {
+  position: fixed;
+  width: 100%;
+  top: -50px;
+  font-size: 2rem;
+  animation: fall 10s linear infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-50px); }
+  100% { transform: translateY(110vh); }
+}
+</style>
+
+</head>
+<body>
 
 <div class="overlay">
 
-  <h1>🍂 Movie Night Under the Stars 🍂</h1>
+<h1>🍂 Movie Night Under the Stars 🍂</h1>
+<div id="countdown"></div>
 
-  <div id="countdown"></div>
+<div class="card">
 
-  <div class="card">
-    <p>Join us for a cozy fall evening ✨</p>
+<p>🎬 Hocus Pocus</p>
+<p>📅 October 14 | 🕰 6:30 PM</p>
 
-    <p>🎬 <span class="highlight">Movie:</span> Hocus Pocus</p>
-    <p>📅 <span class="highlight">Date:</span> October 14</p>
-    <p>🕰 <span class="highlight">Time:</span> 6:30 PM</p>
-    <p>📍 212 Private Road 350</p>
+<input id="name" placeholder="Your name" />
 
-    <p>🍿 Popcorn & warm drinks provided</p>
+<select id="status">
+  <option value="Attending">✅ Attending</option>
+  <option value="Maybe">🤔 Maybe</option>
+  <option value="Not Attending">❌ Not Attending</option>
+</select>
 
-    <h3>RSVP</h3>
+<input id="food" placeholder="What dish are you bringing? (optional)" />
 
-    <input type="text" id="guestName" placeholder="Enter your name" />
+<button onclick="rsvp()">Submit RSVP</button>
 
-    <a class="btn"
-       href="sms:+19013563530?body=I'm%20RSVPing%20for%20movie%20night!">
-       📱 Text RSVP
-    </a>
+<p id="msg"></p>
 
-    <button onclick="rsvp()">✅ I'm Attending</button>
+<h3>🎉 Guest List</h3>
+<p id="count"></p>
+<ul id="list"></ul>
 
-    <p id="confirmation"></p>
-    <p id="guestCount"></p>
-
-    <h4>🎉 Attending:</h4>
-    <ul id="guestList"></ul>
-  </div>
+<button onclick="addCalendar()">📅 Add to Calendar</button>
 
 </div>
+</div>
 
-<!-- 🍁 Falling Leaves -->
-<div class="leaves"></div>
+<div class="leaves">🍁 🍂 🍁 🍂 🍁</div>
 
-<!-- 🎶 MUSIC -->
 <audio id="music" loop autoplay muted playsinline>
-  <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_9464bfa2b3.mp3" type="audio/mpeg">
+  <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_9464bfa2b3.mp3">
 </audio>
 
-<script src="script.js"></script>
+<script>
+const API_URL = "PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE";
+const MAX_GUESTS = 20;
+
+// 🎶 music unlock
+const music = document.getElementById("music");
+document.addEventListener("click", () => {
+  music.muted = false;
+  music.play().catch(() => {});
+});
+
+// ✅ Load guests
+async function loadGuests() {
+  const res = await fetch(API_URL);
+  const data = await res.json();
+
+  document.getElementById("list").innerHTML = "";
+
+  data.forEach(g => {
+    const li = document.createElement("li");
+    li.textContent = `${g.name} - ${g.status} ${g.food ? "🍽 " + g.food : ""}`;
+    document.getElementById("list").appendChild(li);
+  });
+
+  const attending = data.filter(g => g.status === "Attending").length;
+
+  document.getElementById("count").innerText =
+    `${attending}/${MAX_GUESTS} attending`;
+}
+
+// ✅ RSVP
+async function rsvp() {
+  const name = document.getElementById("name").value;
+  const status = document.getElementById("status").value;
+  const food = document.getElementById("food").value;
+
+  if (!name) return;
+
+  const res = await fetch(API_URL);
+  const guests = await res.json();
+
+  const attendingCount = guests.filter(g => g.status === "Attending").length;
+
+  if (attendingCount >= MAX_GUESTS && status === "Attending") {
+    document.getElementById("msg").innerText =
+      "Guest list is full 😢";
+    return;
+  }
+
+  await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({ name, status, food })
+  });
+
+  document.getElementById("msg").innerText =
+    "You're in! 🎉";
+
+  sendText(name, status);
+
+  loadGuests();
+}
+
+// ✅ SMS confirmation
+function sendText(name, status) {
+  const msg = encodeURIComponent(
+    `Hi ${name}! You're marked as "${status}" for Movie Night 🍿 Oct 14 at 6:30PM!`
+  );
+
+  window.location.href = `sms:?body=${msg}`;
+}
+
+// ✅ Add to calendar
+function addCalendar() {
+  const url = "https://www.google.com/calendar/render?action=TEMPLATE" +
+    "&text=Movie+Night" +
+    "&dates=20261014T183000/20261014T210000" +
+    "&details=Hocus+Pocus+Movie+Night" +
+    "&location=212+Private+Road+350";
+
+  window.open(url, "_blank");
+}
+
+// ✅ countdown
+const target = new Date("October 14, 2026 18:30:00").getTime();
+
+setInterval(() => {
+  const now = new Date().getTime();
+  const diff = target - now;
+
+  if (diff < 0) {
+    document.getElementById("countdown").innerText = "🎬 It's time!";
+    return;
+  }
+
+  const d = Math.floor(diff / (1000*60*60*24));
+  const h = Math.floor((diff / (1000*60*60)) % 24);
+  const m = Math.floor((diff / (1000*60)) % 60);
+
+  document.getElementById("countdown").innerText =
+    `${d}d ${h}h ${m}m`;
+}, 1000);
+
+loadGuests();
+</script>
 
 </body>
 </html>

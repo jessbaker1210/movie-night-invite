@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fall Movie Night</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -13,8 +14,6 @@
   <h1>🍂 Movie Night Under the Stars 🍂</h1>
 
   <div id="countdown"></div>
-
-  <button onclick="toggleMusic()">🎶 Play / Pause Music</button>
 
   <div class="card">
     <p>Join us for a cozy fall evening ✨</p>
@@ -45,7 +44,7 @@
 </div>
 
 <!-- 🎶 MUSIC -->
-<audio id="music" loop>
+<audio id="music" loop autoplay playsinline>
   <source src="https://cdn.pixabay.com/audio/2022/10/25/audio_9464bfa2b3.mp3" type="audio/mpeg">
 </audio>
 
